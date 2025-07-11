@@ -1,0 +1,100 @@
+/**
+ * LAYOUT
+ * Structure de mise en page : header, footer, conteneurs
+ */
+
+/* === STRUCTURE PRINCIPALE === */
+
+.content-wrapper {
+    /* Conteneur principal qui organise header, main, footer */
+    flex-grow: 1; /* Prend l'espace disponible dans le body */
+    display: flex;
+    flex-direction: column; /* Empile les éléments verticalement */
+}
+
+main {
+    /* Le contenu principal prend tout l'espace disponible */
+    flex-grow: 1; /* Grandit pour remplir l'espace entre header et footer */
+}
+
+/* === CONTENEURS === */
+
+.container {
+    background: rgba(42, 42, 42, 0.85);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--spacing-xl);
+    border: 1px solid var(--metal-medium);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* === HEADER === */
+/* Styles déplacés vers modules/header.css pour le nouveau design moderne */
+
+/* === NAVIGATION === */
+
+.nav-link {
+    color: var(--text-secondary) !important;
+    font-weight: var(--font-weight-medium);
+    transition: all var(--transition-normal);
+    padding: 0.75rem var(--spacing-md) !important;
+    border-radius: var(--radius-md);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--primary) !important;
+    background: var(--surface-elevated);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-link.link-secondary,
+.nav-link:hover {
+    background: var(--surface-elevated);
+    color: var(--primary) !important;
+}
+
+/* === FOOTER === */
+
+footer {
+    background: var(--metal-darkest);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--metal-medium);
+    margin-top: auto; /* Pousse le footer vers le bas */
+    min-height: auto;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+footer .nav-link {
+    color: var(--text-muted) !important;
+    padding: 0.25rem 0.5rem !important;
+    font-size: 0.875rem;
+    transition: all var(--transition-fast);
+}
+
+footer .nav-link:hover {
+    color: var(--primary) !important;
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+/* === SECTIONS SPÉCIFIQUES === */
+
+.hero-section {
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.features-section {
+    background: transparent;
+}
+
+.section-header h2 {
+    position: relative;
+    display: inline-block;
+}

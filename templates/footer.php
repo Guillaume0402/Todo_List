@@ -1,19 +1,33 @@
-<div class="container">
-    <footer class="py-3 my-4">
-        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
-        </ul>
-        <p class="text-center text-body-secondary">© 2024 Company, Inc</p>
-    </footer>
-</div>
+        </div>
+        </div> <!-- Fermeture du content-wrapper -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-</body>
+        <footer class="py-2 mt-auto">
+            <div class="container-fluid px-4">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <span class="text-primary fw-semibold">TyckyList</span>
+                        <span class="text-body-secondary ms-2">- Organisez vos tâches facilement</span>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <nav class="d-inline-flex">
+                            <a href="index.php" class="nav-link px-2 py-1">Accueil</a>
+                            <a href="mes-listes.php" class="nav-link px-2 py-1">Mes listes</a>
+                            <a href="a-propos.php" class="nav-link px-2 py-1">À propos</a>
+                        </nav>
+                    </div>
+                </div>
+                <hr class="my-2 border-primary opacity-25">
+                <div class="text-center">
+                    <small class="text-body-secondary">
+                        © 2025 TyckyList. Tous droits réservés.
+                    </small>
+                </div>
+            </div>
+        </footer>
 
-</html>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+        </script>
+        </body>
+
+        </html>

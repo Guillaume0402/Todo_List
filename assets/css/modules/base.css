@@ -1,0 +1,121 @@
+/**
+ * BASE
+ * Styles de base : reset, typographie, structure générale
+ */
+
+/* === STRUCTURE GÉNÉRALE === */
+
+html {
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(
+        135deg,
+        var(--metal-darkest) 0%,
+        var(--metal-darker) 25%,
+        var(--metal-dark) 50%,
+        var(--metal-darker) 75%,
+        var(--metal-darkest) 100%
+    );
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: var(--text-primary);
+    font-family: var(--font-family-base);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    /* Flexbox pour sticky footer - permet au footer de rester en bas */
+    display: flex;
+    flex-direction: column; /* Empile header, main, footer verticalement */
+}
+
+/* === TYPOGRAPHIE === */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+}
+
+h1 {
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+h2 {
+    color: var(--primary-light);
+}
+
+h3 {
+    color: var(--primary);
+}
+
+.display-5 {
+    background: linear-gradient(
+        135deg,
+        var(--primary) 0%,
+        var(--primary-light) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.lead {
+    color: var(--text-secondary);
+}
+
+/* === LIENS === */
+
+a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-light);
+}
+
+/* === IMAGES === */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Logo dans le header */
+img[alt*='Logo'] {
+    filter: drop-shadow(0 4px 8px rgba(76, 175, 80, 0.3));
+    transition: filter var(--transition-normal);
+}
+
+img[alt*='Logo']:hover {
+    filter: drop-shadow(0 8px 16px rgba(76, 175, 80, 0.5));
+}
+
+/* === SCROLLBAR PERSONNALISÉ === */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--metal-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-light);
+}

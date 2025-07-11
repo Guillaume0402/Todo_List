@@ -2,67 +2,81 @@
 // on inclut le fichier session.php sur la page pour initialiser la session et les cookies
 require_once __DIR__ . "/templates/header.php";
 ?>
+  
+<main>
+    <!-- Section Hero -->
+    <section class="hero-section mt-5">
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                    <img src="assets/images/logotickylist.png" class="d-block mx-lg-auto img-fluid" alt="Logo TyckyList"
+                        width="500" loading="lazy">
+                </div>
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Gardez vos listes avec vous !</h1>
+                    <p class="lead">Bienvenue sur TyckyList, votre nouvelle plateforme de création de listes de tâches en
+                        ligne. Avec TyckyList, vous pouvez facilement créer des listes de choses à faire pour tous les aspects
+                        de votre vie. Que vous planifiez votre prochain voyage, que vous organisiez votre travail ou que
+                        vous fassiez des courses, TyckyList vous aide à rester organisé et à suivre vos tâches en toute
+                        simplicité.</p>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                        <a href="mes-listes.php" class="btn btn-primary btn-lg px-4 me-md-2">Commencer</a>
+                        <a href="a-propos.php" class="btn btn-outline-secondary btn-lg px-4">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<div class="container col-xxl-8 px-4 py-5">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div class="col-10 col-sm-8 col-lg-6">
-            <img src="/assets/images/logo-checkit.png" class="d-block mx-lg-auto img-fluid" alt="Logo CheckIt"
-                width="500" loading="lazy">
-        </div>
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3">Gardez vos listes avec vous !</h1>
-            <p class="lead">Bienvenue sur Checkit, votre nouvelle plateforme de création de listes de tâches en
-                ligne. Avec Checkit, vous pouvez facilement créer des listes de choses à faire pour tous les aspects
-                de votre vie. Que vous planifiez votre prochain voyage, que vous organisiez votre travail ou que
-                vous fassiez des courses, Checkit vous aide à rester organisé et à suivre vos tâches en toute
-                simplicité.</p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Primary</button>
-                <button type="button" class="btn btn-outline-secondary btn-lg px-4">Default</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container col-xxl-8 px-4 py-5">
-    <div class="row text-center">
-        <h2>Découvrez les fonctionnalités principales :</h2>
-        <div class="col-md-4 my-2">
-            <div class="card w-100">
-                <div class="card-header">
-                    <i class="bi bi-card-checklist"></i>
+    <!-- Section Fonctionnalités -->
+    <section class="features-section">
+        <div class="container col-xxl-8 px-4 py-5">
+            <div class="row text-center">
+                <header class="section-header mb-5">
+                    <h2>Découvrez les fonctionnalités principales</h2>
+                </header>
+                <div class="col-md-4 my-2">
+                    <article class="card w-100 h-100">
+                        <div class="card-header">
+                            <i class="bi bi-card-checklist" aria-hidden="true"></i>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="card-title">Créer un nombre illimité de listes</h3>
+                            <p class="card-text flex-grow-1">Organisez vos tâches sans limite avec notre système de listes personnalisables.</p>
+                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                        </div>
+                    </article>
                 </div>
-                <div class="card-body">
-                    <h3 class="card-title">Créer un nombre illimité de listes</h3>
-                    <a href="#" class="btn btn-primary">S'inscrire</a>
+                <div class="col-md-4 my-2">
+                    <article class="card w-100 h-100">
+                        <div class="card-header">
+                            <i class="bi bi-tags-fill" aria-hidden="true"></i>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="card-title">Classer les listes par catégories</h3>
+                            <p class="card-text flex-grow-1">Triez et organisez vos listes avec un système de catégories intuitif.</p>
+                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                        </div>
+                    </article>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4 my-2">
-            <div class="card w-100">
-                <div class="card-header">
-                    <i class="bi bi-tags-fill"></i>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Classer les listes par catégories</h3>
-                    <a href="#" class="btn btn-primary">S'inscrire</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 my-2">
-            <div class="card w-100">
-                <div class="card-header">
-                    <i class="bi bi-search"></i>
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title">Retrouver facilement vos listes</h3>
-                    <a href="#" class="btn btn-primary">S'inscrire</a>
+                <div class="col-md-4 my-2">
+                    <article class="card w-100 h-100">
+                        <div class="card-header">
+                            <i class="bi bi-search" aria-hidden="true"></i>
+                        </div>
+                        <div class="card-body d-flex flex-column">
+                            <h3 class="card-title">Retrouver facilement vos listes</h3>
+                            <p class="card-text flex-grow-1">Recherchez et accédez rapidement à vos listes grâce à notre moteur de recherche.</p>
+                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                        </div>
+                    </article>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 
 <?php
 // on inclut le fichier footer.php sur la page
 require_once __DIR__ . "/templates/footer.php";
-    ?>
+?>

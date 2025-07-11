@@ -4,42 +4,174 @@ require_once __DIR__ . "/../lib/session.php";
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo_List</title>
+    <title>TyckyList - Gestionnaire de listes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/css/override-bootstrap.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
-    <div class="container">
-        <header
-            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-            <div class="col-md-3 mb-2 mb-md-0">
-                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                    <img src="/assets/images/logo-checkit.png" alt="Logo CheckIt" width="180">
+    <!-- MENU MOBILE EN DEHORS DU HEADER POUR Z-INDEX MAXIMAL -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-content">
+            <button class="mobile-close" id="mobileClose" aria-label="Fermer le menu" type="button">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <nav class="mobile-nav-links">
+                <a href="index.php" class="mobile-nav-link active">
+                    <i class="bi bi-house-door"></i>
+                    <span>Accueil</span>
                 </a>
-            </div>
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="index.php" class="nav-link px-2 link-secondary">Accueil</a></li>
-                <li><a href="mes-listes.php" class="nav-link px-2">Mes listes</a></li>
-                <li><a href="#" class="nav-link px-2">Pricing</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="a-propos.php" class="nav-link px-2">About</a></li>
-            </ul>
-            <div class="col-md-3 text-end">
-                <!-- Si l'utilisateur est connecté on affiche le bouton de déconnexion, sinon on affiche le bouton de connexion -->
+                <a href="mes-listes.php" class="mobile-nav-link">
+                    <i class="bi bi-list-check"></i>
+                    <span>Mes listes</span>
+                </a>
+                <a href="#" class="mobile-nav-link">
+                    <i class="bi bi-tags"></i>
+                    <span>Pricing</span>
+                </a>
+                <a href="#" class="mobile-nav-link">
+                    <i class="bi bi-question-circle"></i>
+                    <span>FAQs</span>
+                </a>
+                <a href="a-propos.php" class="mobile-nav-link">
+                    <i class="bi bi-info-circle"></i>
+                    <span>À propos</span>
+                </a>
+            </nav>
+            <div class="mobile-actions">
                 <?php if (isset($_SESSION['user'])) { ?>
-                    <a href="logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
+                    <span class="mobile-welcome">Bonjour, <?= htmlspecialchars($_SESSION['user']['name'] ?? 'Utilisateur') ?></span>
+                    <a href="logout.php" class="btn btn-outline-danger btn-modern">
+                        <i class="bi bi-box-arrow-right"></i>
+                        Déconnexion
+                    </a>
                 <?php } else { ?>
-                    <a href="login.php" class="btn btn-outline-primary me-2">Connexion</a>
+                    <a href="login.php" class="btn btn-outline-light btn-modern">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Connexion
+                    </a>
+                    <a href="#" class="btn btn-primary btn-modern">
+                        <i class="bi bi-person-plus"></i>
+                        S'inscrire
+                    </a>
                 <?php } ?>
-                <button type="button" class="btn btn-primary">Sign-up</button>
             </div>
-        </header>
+        </div>
     </div>
+    <div class="content-wrapper">
+        <!-- Header moderne avec design métallique -->
+        <header class="modern-header mb-5">
+            <div class="container-fluid">
+                <nav class="custom-navbar">
+                    <!-- Logo Section -->
+                    <div class="brand-section">
+                        <a href="index.php" class="brand-link">
+                            <div class="logo-container">
+                                <img src="./assets/images/logotickylist.png" alt="TyckyList Logo" class="logo-img">
+                                <div class="brand-text">
+                                    <span class="brand-name">TyckyList</span>
+                                    <span class="brand-tagline">Organise tes listes</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-toggle" type="button" id="mobileToggle" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="toggle-line"></span>
+                        <span class="toggle-line"></span>
+                        <span class="toggle-line"></span>
+                    </button>
+
+                    <!-- Navigation Links (Desktop) -->
+                    <div class="nav-section">
+                        <nav class="main-nav">
+                            <a href="index.php" class="nav-link active">
+                                <i class="bi bi-house-door"></i>
+                                <span>Accueil</span>
+                            </a>
+                            <a href="mes-listes.php" class="nav-link">
+                                <i class="bi bi-list-check"></i>
+                                <span>Mes listes</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-tags"></i>
+                                <span>Pricing</span>
+                            </a>
+                            <a href="#" class="nav-link">
+                                <i class="bi bi-question-circle"></i>
+                                <span>FAQs</span>
+                            </a>
+                            <a href="a-propos.php" class="nav-link">
+                                <i class="bi bi-info-circle"></i>
+                                <span>À propos</span>
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- User Actions (Desktop) -->
+                    <div class="actions-section">
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <div class="user-menu">
+                                <span class="user-welcome">Bonjour, <?= htmlspecialchars($_SESSION['user']['name'] ?? 'Utilisateur') ?></span>
+                                <a href="logout.php" class="btn btn-outline-danger btn-modern">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Déconnexion
+                                </a>
+                            </div>
+                        <?php } else { ?>
+                            <div class="auth-buttons">
+                                <a href="login.php" class="btn btn-outline-light btn-modern">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Connexion
+                                </a>
+                                <a href="#" class="btn btn-primary btn-modern">
+                                    <i class="bi bi-person-plus"></i>
+                                    S'inscrire
+                                </a>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </nav>
+
+                <!-- (Mobile nav déplacé en dehors du header) -->
+            </div>
+
+            <!-- Ligne de séparation avec effet lumineux -->
+            <div class="header-separator"></div>
+        </header>
+
+        <!-- JavaScript personnalisé pour le menu mobile -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const burger = document.getElementById('mobileToggle');
+                const menu = document.getElementById('mobileNav');
+                const closeBtn = document.getElementById('mobileClose');
+
+                if (burger && menu) {
+                    burger.addEventListener('click', function() {
+                        if (menu.classList.contains('active')) {
+                            menu.classList.remove('active');
+                            burger.setAttribute('aria-expanded', 'false');
+                        } else {
+                            menu.classList.add('active');
+                            burger.setAttribute('aria-expanded', 'true');
+                        }
+                    });
+                }
+                if (closeBtn && menu && burger) {
+                    closeBtn.addEventListener('click', function() {
+                        menu.classList.remove('active');
+                        burger.setAttribute('aria-expanded', 'false');
+                    });
+                }
+            });
+        </script>
