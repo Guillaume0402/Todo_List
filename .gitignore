@@ -60,10 +60,13 @@ composer.lock
 # === CONFIGURATION ET ENVIRONNEMENT ===
 # Variables d'environnement
 .env
+.env.*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.linux.php
+.env.windows.php
 
 # Configuration de base de données
 config/database.php
