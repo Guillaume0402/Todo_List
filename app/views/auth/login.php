@@ -1,0 +1,32 @@
+<?php
+// Vue: authentification - connexion
+?>
+<section class="container my-5">
+    <div class="card bg-dark text-light p-4">
+        <h2 class="mb-3 text-success">Se connecter</h2>
+
+        <?php if (!empty($flashMessages)) : ?>
+            <?php foreach ($flashMessages as $fm) : ?>
+                <div class="alert alert-<?= htmlspecialchars($fm['type']) ?>">
+                    <?= htmlspecialchars($fm['message']) ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+        <form method="post" action="<?= AppConfig::BASE_PATH ?>?r=auth/login" autocomplete="off">
+            <input type="hidden" name="<?= htmlspecialchars(AppConfig::CSRF_TOKEN_NAME) ?>" value="<?= htmlspecialchars($csrfToken) ?>" />
+
+            <div class="mb-3">
+                <label class="form-label">Adresse email</label>
+                <input type="email" name="email" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mot de passe</label>
+                <input type="password" name="password" class="form-control" required />
+            </div>
+
+            <button class="btn btn-success">Connexion</button>
+        </form>
+    </div>
+</section>

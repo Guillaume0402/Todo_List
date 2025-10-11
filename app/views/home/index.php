@@ -1,15 +1,13 @@
 <?php
-// on inclut le fichier session.php sur la page pour initialiser la session et les cookies
-require_once __DIR__ . "/templates/header.php";
+// Vue d'accueil (contenu déplacé depuis index.php)
 ?>
-  
 <main>
     <!-- Section Hero -->
     <section class="hero-section mt-5">
         <div class="container col-xxl-8 px-4 py-5">
             <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
                 <div class="col-10 col-sm-8 col-lg-6">
-                    <img src="assets/images/logotickylist.png" class="d-block mx-lg-auto img-fluid" alt="Logo TyckyList"
+                    <img src="/assets/images/logotickylist.png" class="d-block mx-lg-auto img-fluid" alt="Logo TyckyList"
                         width="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
@@ -20,8 +18,8 @@ require_once __DIR__ . "/templates/header.php";
                         vous fassiez des courses, TyckyList vous aide à rester organisé et à suivre vos tâches en toute
                         simplicité.</p>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                        <a href="mes-listes.php" class="btn btn-primary btn-lg px-4 me-md-2">Commencer</a>
-                        <a href="a-propos.php" class="btn btn-outline-secondary btn-lg px-4">En savoir plus</a>
+                        <a href="<?= AppConfig::BASE_PATH ?>?r=lists/index" class="btn btn-primary btn-lg px-4 me-md-2">Commencer</a>
+                        <a href="<?= AppConfig::BASE_PATH ?>?r=home/about" class="btn btn-outline-secondary btn-lg px-4">En savoir plus</a>
                     </div>
                 </div>
             </div>
@@ -43,7 +41,7 @@ require_once __DIR__ . "/templates/header.php";
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title">Créer un nombre illimité de listes</h3>
                             <p class="card-text flex-grow-1">Organisez vos tâches sans limite avec notre système de listes personnalisables.</p>
-                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                            <a href="<?= AppConfig::BASE_PATH ?>?r=auth/login" class="btn btn-primary mt-auto">S'inscrire</a>
                         </div>
                     </article>
                 </div>
@@ -55,7 +53,7 @@ require_once __DIR__ . "/templates/header.php";
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title">Classer les listes par catégories</h3>
                             <p class="card-text flex-grow-1">Triez et organisez vos listes avec un système de catégories intuitif.</p>
-                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                            <a href="<?= AppConfig::BASE_PATH ?>?r=auth/login" class="btn btn-primary mt-auto">S'inscrire</a>
                         </div>
                     </article>
                 </div>
@@ -67,7 +65,7 @@ require_once __DIR__ . "/templates/header.php";
                         <div class="card-body d-flex flex-column">
                             <h3 class="card-title">Retrouver facilement vos listes</h3>
                             <p class="card-text flex-grow-1">Recherchez et accédez rapidement à vos listes grâce à notre moteur de recherche.</p>
-                            <a href="login.php" class="btn btn-primary mt-auto">S'inscrire</a>
+                            <a href="<?= AppConfig::BASE_PATH ?>?r=auth/login" class="btn btn-primary mt-auto">S'inscrire</a>
                         </div>
                     </article>
                 </div>
@@ -75,8 +73,3 @@ require_once __DIR__ . "/templates/header.php";
         </div>
     </section>
 </main>
-
-<?php
-// on inclut le fichier footer.php sur la page
-require_once __DIR__ . "/templates/footer.php";
-?>
