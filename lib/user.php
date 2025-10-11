@@ -4,7 +4,7 @@
 function verifyUserLoginPassword(PDO $pdo, string $email, string $password)
 {
     // on prépare la requête pour récupérer l'utilisateur
-    $query = $pdo->prepare('SELECT * FROM user WHERE email = :email');
+    $query = $pdo->prepare('SELECT * FROM users WHERE email = :email');
     // on exécute la requête en passant le paramètre email à la place du :email dans la requête SQL 
     $query->bindValue(':email', $email, PDO::PARAM_STR);
     // on exécute la requête

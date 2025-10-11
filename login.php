@@ -1,65 +1,57 @@
 <?php
-// on inclut le fichier header.php pdo.php et user.php sur la page
-require_once __DIR__ . "/templates/header.php";
-require_once __DIR__ . "/lib/session.php";
-require_once __DIR__ . "/lib/pdo.php";
-require_once __DIR__ . "/lib/user.php";
+// login.php
 
-// on initialise un tableau d'erreurs
-$errors = [];
+require __DIR__.'/.env.php';
+require __DIR__.'/lib/pdo.php';
+require __DIR__.'/lib/user.php';
 
-// si le formulaire a été soumis
-if (isset($_POST['loginUser'])) {
-    // on vérifie si l'utilisateur existe et si le mot de passe est correct
-    $user = verifyUserLoginPassword($pdo, $_POST['email'], $_POST['password']);
-    // si l'utilisateur existe
+session_start();
+
+// 1) Traiter le POST AVANT tout affichage
+$loginError = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+
+    $user = verifyUserLoginPassword($pdo, $email, $password); // SELECT * FROM users ...
+
     if ($user) {
-        // on va le connecter => session
-        $_SESSION['user'] = $user;
-        // on redirige l'utilisateur vers la page d'accueil
+        // Ex: stocker l’utilisateur en session
+        $_SESSION['user'] = [
+            'id'    => (int)$user['id'],
+            'email' => $user['email'],
+            'name'  => $user['display_name'] ?? null,
+        ];
+        // 2) Rediriger immédiatement et STOPPER le script
         header('Location: index.php');
+        exit;
     } else {
-        // on affiche un message d'erreur
-        $errors[] = "Email ou mot de passe incorrect";
+        $loginError = "Email ou mot de passe incorrect";
     }
-
 }
-// on affiche le contenu de la session
-// echo '<pre>';
-// print_r($_SESSION);
-// echo '</pre>';
 
+// 3) Seulement maintenant on affiche le HTML
+require __DIR__.'/templates/header.php';
 ?>
+<div class="container my-5">
+  <div class="card bg-dark text-light p-4">
+    <h2 class="mb-3 text-success">Se connecter</h2>
 
+    <?php if ($loginError): ?>
+      <div class="alert alert-danger"><?= htmlspecialchars($loginError) ?></div>
+    <?php endif; ?>
 
-<div class="container col-xxl-8 px-4 py-5">
-    <h1>Se connecter</h1>
-
-    <?php
-    // on affiche les erreurs éventuelles sous forme de message d'alerte bootstrap 
-    foreach ($errors as $error) { ?>
-        <div class="alert alert-danger" role="alert">
-            <?= $error; ?>
-        </div>
-
-    <?php }
-    ?>
-
-    <form action="" method="post">
-        <div class="mb-3">
-            <label for="email" class="form-label">Adresse email</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <input type="submit" name="loginUser" class="btn btn-primary" value="Connexion"></input>
+    <form method="post" action="login.php" autocomplete="off">
+      <div class="mb-3">
+        <label class="form-label">Adresse email</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mot de passe</label>
+        <input type="password" name="password" class="form-control" required />
+      </div>
+      <button class="btn btn-success">Connexion</button>
     </form>
-
-
+  </div>
 </div>
-
-<?php
-require_once __DIR__ . "/templates/footer.php";
-?>
+<?php require __DIR__.'/templates/footer.php'; ?>

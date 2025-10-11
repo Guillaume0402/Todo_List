@@ -57,27 +57,36 @@ $categories = getCategories($pdo);
                                 <h3 class="card-title"><?= $list['title'] ?></h3>
                             </div>
                             <div class="card-body d-flex flex-column">
-                                <?php $items = getListItems($pdo, $list['id']); ?>
-                                <?php if ($items) { ?>
+                                <?php
+                                // Récupère les items de cette liste
+                                $items = getListItems($pdo, (int)$list['id']); // doit renvoyer is_done AS status
+                                ?>
+
+                                <?php if (!empty($items)) : ?>
                                     <ul class="list-group">
-                                        <?php foreach ($items as $item) { ?>
-                                            <li class="list-group-item"><a class="me-2"
-                                                    href="ajout-modification-liste.php?id=<?= $list['id'] ?> &action=updateStatusListItem&redirect=list&item_id=<?= $item['id'] ?>&status=<?= !$item['status'] ?>"><i
-                                                        class="bi bi-check-circle<?= ($item['status'] ? '-fill' : '') ?>"></i></a>
-                                                <?= $item['name'] ?>
+                                        <?php foreach ($items as $item) : ?>
+                                            <?php
+                                            // compat : si l’alias n’existe pas, on lit is_done
+                                            $status = isset($item['status']) ? (int)$item['status'] : (int)($item['is_done'] ?? 0);
+                                            ?>
+                                            <li class="list-group-item d-flex align-items-center">
+                                                <a class="me-2"
+                                                    href="ajout-modification-liste.php?id=<?= (int)$list['id'] ?>&action=updateStatusListItem&redirect=list&item_id=<?= (int)$item['id'] ?>&status=<?= $status ? 0 : 1 ?>">
+                                                    <i class="bi bi-check-circle<?= $status ? '-fill' : '' ?>"></i>
+                                                </a>
+                                                <?= htmlspecialchars($item['name'] ?? '') ?>
                                             </li>
-                                        <?php } ?>
+                                        <?php endforeach; ?>
                                     </ul>
-                                <?php } ?>
-                                <!-- on affiche la liste des tâches de la liste -->
+                                <?php else : ?>
+                                    <p class="text-muted m-0">Aucun item pour cette liste.</p>
+                                <?php endif; ?>
+
                                 <div class="d-flex justify-content-between align-items-end mt-2">
-                                    <a href="ajout-modification-liste.php?id=<?= $list['id'] ?>" class="btn btn-primary">Voir la
-                                        liste</a>
+                                    <a href="ajout-modification-liste.php?id=<?= (int)$list['id'] ?>" class="btn btn-primary">Voir la liste</a>
                                     <span class="badge rounded-pill text-bg-primary">
-                                        <!-- on affiche l'icône de la catégorie de la liste -->
-                                        <i class="bi <?= $list['category_icon'] ?>"></i>
-                                        <!-- on affiche le nom de la catégorie de la liste -->
-                                        <?= $list['category_name'] ?>
+                                        <i class="bi <?= htmlspecialchars($list['category_icon'] ?? 'bi-card-checklist') ?>"></i>
+                                        <?= htmlspecialchars($list['category_name'] ?? 'Sans catégorie') ?>
                                     </span>
                                 </div>
                             </div>

@@ -1,21 +1,19 @@
 <?php
 
-require_once __DIR__ . "/../.env.php";
+require_once __DIR__ . "/../.env.php"; // <-- remonte d’un seul dossier, pas deux
 
-// connexion à la base de données
-
-// on utilise l'objet PDO pour se connecter à la base de données
 try {
-    // on crée une instance de la classe PDO qui représente la connexion à la base de données
+    // Connexion PDO
     $pdo = new PDO(
         "mysql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME . ";charset=utf8mb4",
         DB_USER,
-        DB_PASS
+        DB_PASS,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ]
     );
+
+} catch (Exception $e) {
+    die('❌ Erreur SQL : ' . $e->getMessage());
 }
-// en cas d'erreur, on affiche un message et on arrête le script
-catch (Exception $e) {
-    // on affiche un message d'erreur
-    die('Erreur SQL : ' . $e->getMessage());
-}
-?>

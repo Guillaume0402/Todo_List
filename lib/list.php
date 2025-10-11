@@ -1,36 +1,36 @@
 <?php
 //fonction pour récupérer les listes d'un utilisateur
-function GetListsByUserId(PDO $pdo, int $userId, int $categoryId = null): array
+function getListsByUserId(PDO $pdo, int $userId, ?int $categoryId = null): array
 {
-    $sql = 'SELECT list.*, category.name AS category_name,    
-                                    category.icon AS category_icon FROM list
-                                    -- on joint la table list avec la table category sur la colonne category_id 
-                                    JOIN category ON category.id = list.category_id
-                                    -- on récupère les listes de l_utilisateur connecté 
-                                    WHERE user_id = :user_id';
+    $sql = <<<SQL
+        SELECT l.*,
+               c.name AS category_name,
+               c.icon AS category_icon
+          FROM lists l
+          LEFT JOIN categories c ON c.id = l.category_id
+         WHERE l.user_id = :user_id
+    SQL;
 
-    if ($categoryId) {
-        $sql .= ' AND list.category_id = :category_id';
+    if ($categoryId !== null) {
+        $sql .= " AND l.category_id = :category_id";
     }
 
-    $query = $pdo->prepare($sql);
-    $query->bindValue(':user_id', $userId, PDO::PARAM_INT);
-    if ($categoryId) {
-        $query->bindValue(':category_id', $categoryId, PDO::PARAM_INT);
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+
+    if ($categoryId !== null) {
+        $stmt->bindValue(':category_id', $categoryId, PDO::PARAM_INT);
     }
-    // on exécute la requête    
-    $query->execute();
-    // on récupère le résultat de la requête sous forme de tableau associatif (FETCH_ASSOC)    
-    $lists = $query->fetchALL(PDO::FETCH_ASSOC);
-    // on retourne les listes    
-    return $lists;
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 //fonction pour récupérer une liste par son id 
 function getListById(PDO $pdo, int $id): array|bool
 {
     // on prépare la requête pour récupérer une liste par son id
-    $query = $pdo->prepare('SELECT * FROM list WHERE id = :id');
+    $query = $pdo->prepare('SELECT * FROM lists WHERE id = :id');
     // on exécute la requête en passant le paramètre id à la place du :id dans la requête SQL
     $query->bindValue(':id', $id, PDO::PARAM_INT);
     // on exécute la requête
@@ -42,7 +42,7 @@ function getListById(PDO $pdo, int $id): array|bool
 
 
 // fonction qui va gérer l'ajout ou la modification d'une liste
-function saveList(PDO $pdo, string $title, int $userId, int $categoryId, int $id = null): int|bool
+function saveList(PDO $pdo, string $title, int $userId, int $categoryId, ?int $id = null): int|bool
 {   // on vérifie si on a un id dans l'url
     if ($id) {
         // update
@@ -81,7 +81,7 @@ function saveList(PDO $pdo, string $title, int $userId, int $categoryId, int $id
 }
 
 // fonction qui va gérer l'ajout ou la modification d'un item
-function saveListItem(PDO $pdo, string $name, int $list_id, bool $status = false, int $id = null): int|bool
+function saveListItem(PDO $pdo, string $name, int $list_id, bool $status = false, ?int $id = null): int|bool
 {
     if ($id) {
         //update 
@@ -102,22 +102,24 @@ function saveListItem(PDO $pdo, string $name, int $list_id, bool $status = false
     return $query->execute();
 }
 
-function getListItems(PDO $pdo, int $id): array
+function getListItems(PDO $pdo, int $listId): array
 {
-    // on prépare la requête pour récupérer les items de la liste
-    $query = $pdo->prepare('SELECT * FROM item WHERE list_id = :list_id');
-    // on exécute la requête en passant le paramètre list_id à la place du :list_id dans la requête SQL
-    $query->bindValue(':list_id', $id, PDO::PARAM_INT);
-    // on exécute la requête
-    $query->execute();
-    // on récupère le résultat de la requête sous forme de tableau associatif (FETCH_ASSOC)
-    return $query->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare("
+        SELECT id, list_id, name, is_done AS status, position, due_date, created_at
+        FROM items
+        WHERE list_id = :list_id
+        ORDER BY (position IS NULL), position, id
+    ");
+    $stmt->bindValue(':list_id', $listId, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
 
 function deleteListItemById(PDO $pdo, int $id): bool
 {
     // on prépare la requête pour supprimer un item par son id
-    $query = $pdo->prepare('DELETE FROM item WHERE id = :id');
+    $query = $pdo->prepare('DELETE FROM items WHERE id = :id');
     // on exécute la requête en passant le paramètre id à la place du :id dans la requête SQL
     $query->bindValue(':id', $id, PDO::PARAM_INT);
     // on exécute la requête
