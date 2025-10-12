@@ -1,23 +1,11 @@
 <?php
 // Mini-routeur basique via ?r=controller/action
 
-require_once __DIR__ . '/../config/app.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../app/Core/Database.php';
-require_once __DIR__ . '/../app/Core/Auth.php';
-require_once __DIR__ . '/../app/Core/BaseController.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Charge les modèles nécessaires
-require_once __DIR__ . '/../app/models/BaseModel.php';
-require_once __DIR__ . '/../app/models/UserModel.php';
-require_once __DIR__ . '/../app/models/ListModel.php';
-require_once __DIR__ . '/../app/models/CategoryModel.php';
-require_once __DIR__ . '/../app/models/ItemModel.php';
-
-// Charge les contrôleurs
-require_once __DIR__ . '/../app/controllers/HomeController.php';
-require_once __DIR__ . '/../app/controllers/AuthController.php';
-require_once __DIR__ . '/../app/controllers/ListController.php';
+use App\Controllers\HomeController;
+use App\Controllers\AuthController;
+use App\Controllers\ListController;
 
 $r = $_GET['r'] ?? 'home/index';
 [$controller, $action] = array_pad(explode('/', $r, 2), 2, 'index');

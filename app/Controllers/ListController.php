@@ -1,5 +1,14 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Core\BaseController;
+use App\Core\Auth;
+use App\Models\ListModel;
+use App\Models\CategoryModel;
+use App\Models\ItemModel;
+use Exception;
+
 /**
  * Contrôleur des listes et items
  */

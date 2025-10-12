@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Core;
+
+use function hash_equals;
+
 /**
  * Gestionnaire de session et d'authentification
  */
@@ -10,9 +14,9 @@ class Auth
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_set_cookie_params([
-                'lifetime' => AppConfig::SESSION_LIFETIME,
-                'path' => AppConfig::APP_URL,
-                'domain' => AppConfig::SESSION_DOMAIN,
+                'lifetime' => \AppConfig::SESSION_LIFETIME,
+                'path' => \AppConfig::APP_URL,
+                'domain' => \AppConfig::SESSION_DOMAIN,
                 'httponly' => true,
                 'secure' => isset($_SERVER['HTTPS'])
             ]);
@@ -60,7 +64,7 @@ class Auth
     public static function requireAuth(): void
     {
         if (!self::isLoggedIn()) {
-            header('Location: ' . AppConfig::BASE_PATH . '?r=auth/login');
+            header('Location: ' . \AppConfig::BASE_PATH . '?r=auth/login');
             exit;
         }
     }

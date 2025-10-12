@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Core\BaseController;
+
 /**
  * Contrôleur pour la page d'accueil
  */

@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Core\BaseController;
+use App\Core\Auth;
+use App\Models\UserModel;
+use Exception;
+
 /**
  * Contrôleur d'authentification
  */

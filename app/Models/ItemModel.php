@@ -1,23 +1,15 @@
 <?php
 
-/**
- * Modèle pour les items de liste
- */
+namespace App\Models;
 
 class ItemModel extends BaseModel
 {
-    /**
-     * Récupère les items par ID de liste
-     */
     public function getByListId(int $listId): array
     {
         $sql = 'SELECT id, list_id, name, is_done AS status, position, due_date, created_at FROM items WHERE list_id = :list_id ORDER BY (position IS NULL), position, id';
         return $this->fetchAll($sql, [':list_id' => $listId]);
     }
 
-    /**
-     * Ajoute ou modifie un item
-     */
     public function save(string $name, int $listId, bool $status = false, ?int $id = null): bool|int
     {
         $name = trim($name);
@@ -45,18 +37,12 @@ class ItemModel extends BaseModel
         }
     }
 
-    /**
-     * Supprime un item
-     */
     public function deleteById(int $id): bool
     {
         $stmt = $this->execute('DELETE FROM items WHERE id = :id', [':id' => $id]);
         return $stmt->rowCount() > 0;
     }
 
-    /**
-     * Met à jour le statut d'un item
-     */
     public function updateStatus(int $id, bool $status): bool
     {
         $stmt = $this->execute('UPDATE items SET is_done = :is_done WHERE id = :id', [

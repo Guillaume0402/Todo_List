@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Core;
+
+use PDO;
+use Exception;
+use App\Core\Database;
+use App\Core\Auth;
+
 /**
  * Contrôleur de base
  */
@@ -50,7 +57,7 @@ abstract class BaseController
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             throw new Exception('Méthode non autorisée');
         }
-        $token = $_POST[AppConfig::CSRF_TOKEN_NAME] ?? '';
+        $token = $_POST[\AppConfig::CSRF_TOKEN_NAME] ?? '';
         if (!Auth::verifyCsrfToken($token)) {
             throw new Exception('Token CSRF invalide');
         }

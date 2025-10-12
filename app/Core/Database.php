@@ -1,5 +1,11 @@
 <?php
 
+namespace App\Core;
+
+use PDO;
+use PDOException;
+use Exception;
+
 class Database
 {
     private static ?PDO $instance = null;
@@ -11,10 +17,10 @@ class Database
         if (self::$instance === null) {
             try {
                 self::$instance = new PDO(
-                    DatabaseConfig::getDsn(),
-                    DatabaseConfig::USER,
-                    DatabaseConfig::PASS,
-                    DatabaseConfig::getPdoOptions()
+                    \DatabaseConfig::getDsn(),
+                    \DatabaseConfig::USER,
+                    \DatabaseConfig::PASS,
+                    \DatabaseConfig::getPdoOptions()
                 );
             } catch (PDOException $e) {
                 throw new Exception('Erreur de connexion à la base de données : ' . $e->getMessage());

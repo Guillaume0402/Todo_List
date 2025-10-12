@@ -1,14 +1,9 @@
 <?php
 
-/**
- * Modèle pour les listes
- */
+namespace App\Models;
 
 class ListModel extends BaseModel
 {
-    /**
-     * Récupère les listes par utilisateur (avec catégorie)
-     */
     public function getByUserId(int $userId, ?int $categoryId = null): array
     {
         $sql = <<<SQL
@@ -27,17 +22,11 @@ class ListModel extends BaseModel
         return $this->fetchAll($sql, $params);
     }
 
-    /**
-     * Récupère une liste par ID
-     */
     public function getById(int $id): array|false
     {
         return $this->fetch('SELECT * FROM lists WHERE id = :id', [':id' => $id]);
     }
 
-    /**
-     * Ajoute ou modifie une liste
-     */
     public function save(string $title, int $userId, int $categoryId, ?int $id = null): int|bool
     {
         $title = trim($title);
