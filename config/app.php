@@ -14,7 +14,8 @@ class AppConfig
 
     // Configuration de session
     public const SESSION_LIFETIME = 3600; // 1 heure
-    public const SESSION_DOMAIN = '.checkit.local';
+    // Laisser vide en local pour que le cookie s'applique au host courant (ex: localhost)
+    public const SESSION_DOMAIN = '';
 
     // Configuration de sécurité
     public const CSRF_TOKEN_NAME = '_token';

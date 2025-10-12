@@ -30,8 +30,10 @@ class AuthController extends BaseController
         if (Auth::isLoggedIn()) {
             $this->redirect('/public/index.php?r=home/index');
         }
-
-        $this->render('auth/login');
+        // Pré-remplir l'email si présent en flash (après échec)
+        $prefillEmail = $_SESSION['last_login_email'] ?? '';
+        unset($_SESSION['last_login_email']);
+        $this->render('auth/login', ['prefillEmail' => $prefillEmail]);
     }
 
     /**
@@ -50,10 +52,14 @@ class AuthController extends BaseController
                 $this->redirect('/public/index.php?r=home/index');
             } else {
                 $this->addFlashMessage('error', 'Email ou mot de passe incorrect');
+                $_SESSION['last_login_email'] = $data['email'];
                 $this->redirect('/public/index.php?r=auth/login');
             }
         } catch (Exception $e) {
             $this->addFlashMessage('error', $e->getMessage());
+            if (isset($_POST['email'])) {
+                $_SESSION['last_login_email'] = $_POST['email'];
+            }
             $this->redirect('/public/index.php?r=auth/login');
         }
     }

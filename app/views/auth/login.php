@@ -2,7 +2,7 @@
 // Vue: authentification - connexion
 ?>
 <section class="container my-5">
-    <div class="card bg-dark text-light p-4">
+    <div class="card bg-dark text-light p-3 m-5">
         <h2 class="mb-3 text-success">Se connecter</h2>
 
         <?php if (!empty($flashMessages)) : ?>
@@ -18,7 +18,7 @@
 
             <div class="mb-3">
                 <label class="form-label">Adresse email</label>
-                <input type="email" name="email" class="form-control" required />
+                <input type="email" name="email" class="form-control" required autofocus value="<?= isset($prefillEmail) ? htmlspecialchars($prefillEmail) : '' ?>" />
             </div>
 
             <div class="mb-3">
