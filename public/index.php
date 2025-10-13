@@ -1,16 +1,19 @@
 <?php
 // Mini-routeur basique via ?r=controller/action
 
+// Charge l'autoload Composer pour récupérer les classes du projet
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ListController;
 
+// Parse le paramètre ?r=controller/action et applique home/index par défaut
 $r = $_GET['r'] ?? 'home/index';
 [$controller, $action] = array_pad(explode('/', $r, 2), 2, 'index');
 
 try {
+    // Oriente vers le bon contrôleur puis l'action demandée
     switch ($controller) {
         case 'home':
             $ctrl = new HomeController();
@@ -36,9 +39,11 @@ try {
             else $ctrl->index();
             break;
         default:
+            // Route inconnue : retour à l'accueil
             (new HomeController())->index();
     }
 } catch (Throwable $e) {
+    // Affiche une erreur lisible en cas d'exception non gérée
     http_response_code(500);
     echo '<pre style="color:#fff;background:#222;padding:1rem;border-radius:8px">';
     echo 'Erreur: ' . htmlspecialchars($e->getMessage());
