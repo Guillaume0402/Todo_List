@@ -163,16 +163,48 @@ class ListController extends BaseController
     {
         Auth::requireAuth();
 
+        $isAjax = (
+            (isset($_GET['ajax']) && (int)$_GET['ajax'] === 1)
+            || (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+            || (isset($_SERVER['HTTP_ACCEPT']) && strpos(strtolower($_SERVER['HTTP_ACCEPT']), 'application/json') !== false)
+        );
+
         if (!isset($_GET['item_id']) || !isset($_GET['status']) || !isset($_GET['id'])) {
+            if ($isAjax) {
+                $this->json([
+                    'success' => false,
+                    'message' => 'Paramètres manquants'
+                ], 400);
+            }
             $this->addFlashMessage('error', 'Paramètres manquants');
             $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');
         }
 
         $itemId = (int)$_GET['item_id'];
-        $status = (bool)$_GET['status'];
+        $status = ((int)$_GET['status']) === 1;
         $listId = (int)$_GET['id'];
 
-        $this->itemModel->updateStatus($itemId, $status);
+        try {
+            $this->itemModel->updateStatus($itemId, $status);
+        } catch (Exception $e) {
+            if ($isAjax) {
+                $this->json([
+                    'success' => false,
+                    'message' => $e->getMessage()
+                ], 500);
+            }
+            $this->addFlashMessage('error', $e->getMessage());
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');
+        }
+
+        if ($isAjax) {
+            $this->json([
+                'success' => true,
+                'status' => $status ? 1 : 0,
+                'item_id' => $itemId,
+                'list_id' => $listId,
+            ]);
+        }
 
         if (isset($_GET['redirect']) && $_GET['redirect'] === 'list') {
             $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');

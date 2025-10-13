@@ -42,7 +42,11 @@
                                             <?php $status = isset($item['status']) ? (int)$item['status'] : (int)($item['is_done'] ?? 0); ?>
                                             <li class="list-group-item d-flex align-items-center">
                                                 <a class="me-2"
-                                                    href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= $status ? 0 : 1 ?>&redirect=list">
+                                                    href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= $status ? 0 : 1 ?>&redirect=list"
+                                                    data-toggle-status="1"
+                                                    data-item-id="<?= (int)($item['id'] ?? 0) ?>"
+                                                    data-list-id="<?= (int)($list['id'] ?? 0) ?>"
+                                                    data-current-status="<?= $status ? 1 : 0 ?>">
                                                     <i class="bi bi-check-circle<?= $status ? '-fill' : '' ?>"></i>
                                                 </a>
                                                 <?= htmlspecialchars($item['name'] ?? '') ?>

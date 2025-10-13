@@ -61,6 +61,7 @@
             </form>
             <div class="row m-4 border rounded p-2 ">
                 <?php foreach ($items as $item) { ?>
+                    <?php $itemStatus = isset($item['status']) ? (int)$item['status'] : (int)($item['is_done'] ?? 0); ?>
                     <div class="accordion mb-2">
                         <div class="accordion-item" id="accordion-parent-<?= (int)($item['id'] ?? 0) ?>">
                             <h2 class="accordion-header">
@@ -68,8 +69,12 @@
                                     data-bs-target="#collapse-item-<?= (int)($item['id'] ?? 0) ?>" aria-expanded='false'
                                     aria-controls="collapse-item-<?= (int)($item['id'] ?? 0) ?>">
                                     <a class="me-2"
-                                        href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= (isset($item['status']) && $item['status']) ? 0 : 1 ?>"><i
-                                            class="bi bi-check-circle<?= ((isset($item['status']) && $item['status']) ? '-fill' : '') ?>"></i></a>
+                                        href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= $itemStatus ? 0 : 1 ?>"
+                                        data-toggle-status="1"
+                                        data-item-id="<?= (int)($item['id'] ?? 0) ?>"
+                                        data-list-id="<?= (int)($list['id'] ?? 0) ?>"
+                                        data-current-status="<?= $itemStatus ? 1 : 0 ?>">
+                                        <i class="bi bi-check-circle<?= ($itemStatus ? '-fill' : '') ?>"></i></a>
                                     <?= htmlspecialchars($item['name'] ?? '') ?>
                                 </button>
                             </h2>
