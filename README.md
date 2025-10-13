@@ -1,77 +1,156 @@
-# TyckyList - Structure simple (MVC)
+# TickyList – Application To-Do List MVC (PHP Vanilla)
 
-Ce projet suit une structure MVC légère et lisible avec autoload Composer (PSR-4). Voici la carte des dossiers, le rôle de chacun et comment ajouter une page.
+TickyList est une application web développée en PHP Vanilla suivant une architecture MVC claire et modulaire.  
+Elle permet de gérer des listes de tâches personnelles avec un système complet d’authentification sécurisé**, une interface responsive et une base de données MySQL conforme aux bonnes pratiques du développement web.
 
-## Arborescence
+---
 
-- `public/`
-  - Point d'entrée web (router): `public/index.php`
-  - Les fichiers statiques sont servis depuis `assets/` (CSS, images, etc.)
-- `app/`
-  - `Core/` — Noyau applicatif: `BaseController`, `Auth`, `Database`
-  - `Controllers/` — Contrôleurs (logique HTTP) avec namespace `App\Controllers`
-  - `Models/` — Accès aux données (PDO) avec namespace `App\Models`
-  - `views/` — Vues PHP (HTML) par fonctionnalité
-  - `views/layouts/` — Layout global + partials (`header.php`, `footer.php`)
-- `config/`
-  - `env.php` — Identifiants BDD (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS)
-  - `database.php` — DSN + options PDO
-  - `app.php` — Constantes (APP_NAME, CSRF, `BASE_PATH` pour les routes)
-- `vendor/` — Dépendances Composer (autoload PSR-4)
-- `composer.json` — Configuration autoload: `App\` → `app/`
+## Architecture du projet
 
-Supprimés (legacy): `templates/`, `lib/`, `core/` (remplacé par `app/Core`).
+```
+TyckyList/
+│
+├── public/                 # Point d’entrée web (routeur principal)
+│   ├── index.php           # Routeur : analyse ?r=controller/action
+│   └── assets/             # Fichiers statiques (CSS, JS, images)
+│
+├── app/
+│   ├── Core/               # Noyau de l’application (BaseController, Auth, Database)
+│   ├── Controllers/        # Logique de contrôle HTTP
+│   ├── Models/             # Accès aux données (via PDO)
+│   └── views/              # Vues PHP (HTML)
+│       └── layouts/        # Layout global + partials (header, footer)
+│
+├── config/
+│   ├── env.php             # Variables d’environnement (DB_HOST, DB_USER, etc.)
+│   ├── database.php        # Connexion PDO (DSN + options sécurisées)
+│   └── app.php             # Constantes globales (APP_NAME, CSRF, BASE_PATH)
+│
+├── vendor/                 # Dépendances Composer (autoload PSR-4)
+├── composer.json           # Autoload PSR-4 : "App\\" → "app/"
+└── database.sql            # Script SQL complet (tables, contraintes, seed)
+```
 
-## Flux de requête (mental model)
+---
 
-1. Navigateur → `public/index.php?r=controller/action`
-2. Le router choisit un contrôleur et une action (ex: `ListController@index`)
-3. Le contrôleur appelle les modèles (accès BDD), prépare les données
+## Fonctionnement global (Flux MVC)
+
+1. Le navigateur appelle une URL :  
+   → `public/index.php?r=controller/action`
+2. Le routeur identifie le contrôleur et l’action (ex. `ListController@index`)
+3. Le contrôleur traite la requête, appelle les modèles, prépare les données
 4. Le contrôleur appelle `render('dossier/vue', $data)`
-5. `BaseController` inclut la vue dans le layout (`views/layouts/main.php`)
+5. `BaseController` intègre la vue dans le layout global (`views/layouts/main.php`)
 
-## Ajouter une nouvelle page
-
-1. Contrôleur: créer `app/Controllers/MontrucController.php` avec namespace `App\Controllers` et une méthode publique (ex: `show()`)
-2. Vue: créer `app/views/montruc/show.php` (HTML)
-3. Route: appeler `public/index.php?r=montruc/show` (ou `<?= AppConfig::BASE_PATH ?>?r=montruc/show` dans une vue)
-
-Note: Les classes sont chargées automatiquement par Composer (PSR-4), plus besoin de `require_once`.
+---
 
 ## Authentification et sécurité
 
-- `Auth::requireAuth()` redirige vers `/public/index.php?r=auth/login` si l'utilisateur n'est pas connecté
-- CSRF: `BaseController` fournit `$csrfToken` + `AppConfig::CSRF_TOKEN_NAME` pour les formulaires POST
+### Fonctionnalités principales
+- **Validation complète** des entrées (email, mot de passe, nom d’affichage)
+- **Normalisation** des emails (trim + lowercase)
+- **Hachage** des mots de passe via `password_hash()`
+- **Rehash automatique** si l’algorithme par défaut évolue (`password_needs_rehash`)
+- **Protection CSRF** sur toutes les requêtes POST
+- **Gestion des doublons** via `try/catch` sur le code SQL `23000`
+- **Sessions sécurisées** : `session_regenerate_id(true)` après login/inscription
+- **Anti brute-force léger** : délai aléatoire (200–500 ms) après échec de connexion
+- **Messages d’erreur neutres** (« Identifiants invalides »)
+- **UX améliorée** : bouton 👁 afficher/masquer le mot de passe, flash messages Bootstrap
 
-## Exemples d'URL utiles
+---
 
-- Accueil: `/public/index.php?r=home/index`
-- À propos: `/public/index.php?r=home/about`
-- Connexion: `/public/index.php?r=auth/login`
-- Mes listes: `/public/index.php?r=lists/index`
-- Éditer une liste: `/public/index.php?r=lists/form&id=123`
+## Base de données MySQL
 
-## Installation (local)
+### Tables principales
+- **users** — Comptes utilisateurs (id, email, password, display_name, created_at)
+- **categories** — Catégories de listes (ex. Courses, Travail…)
+- **lists** — Listes liées à un utilisateur (FK user_id, category_id)
+- **items** — Éléments d’une liste (FK list_id, état terminé ou non)
 
-1. **Dépendances**
-   - Installer Composer: `composer install` (génère `vendor/autoload.php`)
-2. **Base de données**
-   - Crée une BDD (ex: `tickylist`).
-   - Mets à jour `config/env.php` avec: DB_HOST, DB_PORT, DB_NAME (`tickylist`), DB_USER (`tickyuser`), DB_PASS (`ticky123`).
-3. **Lancer le serveur PHP** (si besoin):
-   - Racine web: le dossier `public/` (ex: via Apache/Nginx ou `php -S localhost:8088 -t public`).
-4. **Accéder à l'app**:
-   - Accueil: `/public/index.php?r=home/index`
-   - Connexion: `/public/index.php?r=auth/login`
-   - Mes listes: `/public/index.php?r=lists/index`
+### Contraintes et index
+- `users.email` **UNIQUE**
+- FK avec `ON DELETE CASCADE` / `ON DELETE SET NULL`
+- Index `(user_id, is_archived)` pour les requêtes fréquentes
 
-## Dossier pro (DWWM)
+### Jeu de données de démonstration
+Le fichier `database.sql` contient :
+- La création complète du schéma
+- Les contraintes et index
+- Un jeu de données exemple :
+  - 1 utilisateur : `test@example.com` / `Password123!`
+  - 4 catégories, 2 listes et 4 items
 
-- Schéma simple: Router → Controller → Model → View
-- Un fichier par responsabilité: contrôleur pour la logique, modèle pour la BDD, vue pour l'HTML
-- Éviter les includes "magiques": centraliser dans `BaseController` (sous `app/Core`)
-- Documenter chaque fonctionnalité avec sa route, son contrôleur, sa vue
+---
 
-## Notes
+## Installation locale
 
-- Utilise `AppConfig::BASE_PATH` pour générer des liens internes dans les vues.
+### 1 Dépendances
+Installer Composer puis exécuter :
+```bash
+composer install
+```
+
+### 2 Base de données
+1. Crée une base `tickylist`
+2. Importe `database.sql` :
+   - via phpMyAdmin → Importer → `database.sql`
+   - ou en ligne de commande :
+     ```bash
+     mysql -u root -p < database.sql
+     ```
+3. Configure `config/env.php` :
+   ```php
+   define('DB_HOST', 'localhost');
+   define('DB_PORT', 3306);
+   define('DB_NAME', 'tickylist');
+   define('DB_USER', 'root');
+   define('DB_PASS', '');
+   ```
+
+### 3 Lancer le serveur PHP
+```bash
+php -S localhost:8088 -t public
+```
+
+### 4 Accéder à l’application
+- Accueil : [http://localhost:8088/?r=home/index](http://localhost:8088/?r=home/index)
+- Connexion : [http://localhost:8088/?r=auth/login](http://localhost:8088/?r=auth/login)
+- Inscription : [http://localhost:8088/?r=auth/register](http://localhost:8088/?r=auth/register)
+- Mes listes : [http://localhost:8088/?r=lists/index](http://localhost:8088/?r=lists/index)
+
+---
+
+## Points forts pour le Dossier Professionnel (DWWM)
+
+| Compétence | Mise en œuvre |
+|-------------|----------------|
+| **AT1 – Développer la partie front-end** | Formulaires responsives, gestion CSRF, bouton 👁 afficher/masquer, flash messages Bootstrap |
+| **AT2 – Développer la partie back-end sécurisée** | Authentification complète (hash, rehash, gestion d’erreurs, sessions sécurisées) |
+| **Base de données relationnelle** | MySQL + contraintes FK + index + seed |
+| **Architecture MVC** | Séparation claire des responsabilités, autoload PSR-4 |
+| **Documentation et professionnalisme** | README complet + code commenté + schéma BDD |
+
+---
+
+## Exemples de routes utiles
+
+| Fonction | URL |
+|-----------|-----|
+| Accueil | `?r=home/index` |
+| Connexion | `?r=auth/login` |
+| Inscription | `?r=auth/register` |
+| Mes listes | `?r=lists/index` |
+| Formulaire liste | `?r=lists/form&id=123` |
+
+---
+
+## Bonus UX / améliorations futures
+- Toggle AJAX des items “terminé / non terminé” sans rechargement  
+- Pagination des listes  
+- Mode sombre (CSS)  
+- Export/Import de listes (JSON)
+
+---
+
+© 2025 – Projet **TickyList** • Développement : **Guillaume Maignaut**
