@@ -75,4 +75,3 @@ Note: Les classes sont chargées automatiquement par Composer (PSR-4), plus beso
 ## Notes
 
 - Utilise `AppConfig::BASE_PATH` pour générer des liens internes dans les vues.
-- test@example.com / Password123!
