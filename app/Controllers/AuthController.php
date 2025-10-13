@@ -15,6 +15,9 @@ class AuthController extends BaseController
 {
     private UserModel $userModel;
 
+    /**
+     * Initialise le modèle utilisateur
+     */
     public function __construct()
     {
         parent::__construct();

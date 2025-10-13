@@ -10,6 +10,9 @@ use function hash_equals;
 
 class Auth
 {
+    /**
+     * Initialise la session avec les paramètres de sécurité
+     */
     public static function initSession(): void
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -29,12 +32,18 @@ class Auth
         }
     }
 
+    /**
+     * Vérifie si l'utilisateur est connecté
+     */
     public static function isLoggedIn(): bool
     {
         self::initSession();
         return isset($_SESSION['user']) && !empty($_SESSION['user']['id']);
     }
 
+    /**
+     * Connecte un utilisateur et stocke ses données en session
+     */
     public static function login(array $user): void
     {
         self::initSession();
@@ -46,6 +55,9 @@ class Auth
         ];
     }
 
+    /**
+     * Déconnecte l'utilisateur et détruit la session
+     */
     public static function logout(): void
     {
         self::initSession();
@@ -54,18 +66,27 @@ class Auth
         unset($_SESSION);
     }
 
+    /**
+     * Récupère les données de l'utilisateur connecté
+     */
     public static function getUser(): ?array
     {
         self::initSession();
         return $_SESSION['user'] ?? null;
     }
 
+    /**
+     * Récupère l'ID de l'utilisateur connecté
+     */
     public static function getUserId(): ?int
     {
         $user = self::getUser();
         return $user ? (int)$user['id'] : null;
     }
 
+    /**
+     * Force la connexion (redirige vers login si non connecté)
+     */
     public static function requireAuth(): void
     {
         if (!self::isLoggedIn()) {
@@ -74,6 +95,9 @@ class Auth
         }
     }
 
+    /**
+     * Génère un token CSRF unique pour la protection des formulaires
+     */
     public static function generateCsrfToken(): string
     {
         self::initSession();
@@ -95,6 +119,9 @@ class Auth
         return $_SESSION['csrf_token'];
     }
 
+    /**
+     * Vérifie la validité d'un token CSRF (session + cookie de secours)
+     */
     public static function verifyCsrfToken(string $token): bool
     {
         self::initSession();

@@ -8,6 +8,10 @@ namespace App\Models;
 
 class UserModel extends BaseModel
 {
+    /**
+     * Vérifie les identifiants de connexion
+     * Compare le mot de passe avec le hash stocké en BDD
+     */
     public function verifyLogin(string $email, string $password): array|false
     {
         $user = $this->fetch(
@@ -22,6 +26,9 @@ class UserModel extends BaseModel
         return false;
     }
 
+    /**
+     * Récupère un utilisateur par son ID
+     */
     public function getById(int $id): array|false
     {
         return $this->fetch(
@@ -30,6 +37,9 @@ class UserModel extends BaseModel
         );
     }
 
+    /**
+     * Récupère un utilisateur par son email
+     */
     public function getByEmail(string $email): array|false
     {
         return $this->fetch(
@@ -38,35 +48,34 @@ class UserModel extends BaseModel
         );
     }
 
-    public function create(string $email, string $password, ?string $displayName = null): int
+    /**
+     * Sauvegarde un nouvel utilisateur en base de données
+     */
+    public function save(array $data): bool
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        $this->execute(
-            'INSERT INTO users (email, password, display_name, created_at) VALUES (:email, :password, :display_name, NOW())',
+        $stmt = $this->execute(
+            'INSERT INTO users (email, password, created_at) 
+             VALUES (:email, :password, NOW())',
             [
-                ':email' => $email,
-                ':password' => $hashedPassword,
-                ':display_name' => $displayName
+                ':email' => $data['email'],
+                ':password' => $data['password']
             ]
         );
-
-        return $this->getLastInsertId();
+        return $stmt !== false;
     }
 
+    /**
+     * Met à jour les informations d'un utilisateur
+     */
     public function update(int $id, array $data): bool
     {
-        $fields = [];
-        $params = [':id' => $id];
-
-        foreach ($data as $key => $value) {
-            $fields[] = "{$key} = :{$key}";
-            $params[":{$key}"] = $value;
-        }
-
-        $sql = 'UPDATE users SET ' . implode(', ', $fields) . ' WHERE id = :id';
-        $stmt = $this->execute($sql, $params);
-
-        return $stmt->rowCount() > 0;
+        $stmt = $this->execute(
+            'UPDATE users SET email = :email WHERE id = :id',
+            [
+                ':email' => $data['email'],
+                ':id' => $id
+            ]
+        );
+        return $stmt !== false;
     }
 }

@@ -15,12 +15,18 @@ abstract class BaseController
 {
     protected PDO $db;
 
+    /**
+     * Initialise la connexion base de données et la session
+     */
     public function __construct()
     {
         $this->db = Database::getInstance();
         Auth::initSession();
     }
 
+    /**
+     * Rend une vue avec les données et le layout spécifiés
+     */
     protected function render(string $view, array $data = [], ?string $layout = 'layouts/main'): void
     {
         $currentUser = Auth::getUser();
@@ -38,12 +44,18 @@ abstract class BaseController
         }
     }
 
+    /**
+     * Redirige vers une URL
+     */
     protected function redirect(string $url): void
     {
         header("Location: {$url}");
         exit;
     }
 
+    /**
+     * Retourne une réponse JSON avec le code de statut
+     */
     protected function json(array $data, int $statusCode = 200): void
     {
         http_response_code($statusCode);
@@ -52,6 +64,9 @@ abstract class BaseController
         exit;
     }
 
+    /**
+     * Valide une requête POST avec vérification CSRF et champs requis
+     */
     protected function validatePostRequest(array $requiredFields = []): array
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -71,6 +86,9 @@ abstract class BaseController
         return $data;
     }
 
+    /**
+     * Ajoute un message flash pour l'affichage suivant
+     */
     protected function addFlashMessage(string $type, string $message): void
     {
         if (!isset($_SESSION['flash_messages'])) {
@@ -79,6 +97,9 @@ abstract class BaseController
         $_SESSION['flash_messages'][] = ['type' => $type, 'message' => $message];
     }
 
+    /**
+     * Récupère et supprime les messages flash de la session
+     */
     protected function getFlashMessages(): array
     {
         $messages = $_SESSION['flash_messages'] ?? [];

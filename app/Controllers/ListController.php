@@ -19,6 +19,9 @@ class ListController extends BaseController
     private CategoryModel $categoryModel;
     private ItemModel $itemModel;
 
+    /**
+     * Initialise les modèles de données nécessaires
+     */
     public function __construct()
     {
         parent::__construct();

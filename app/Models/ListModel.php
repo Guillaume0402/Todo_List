@@ -4,6 +4,9 @@ namespace App\Models;
 
 class ListModel extends BaseModel
 {
+    /**
+     * Récupère toutes les listes d'un utilisateur avec possibilité de filtrer par catégorie
+     */
     public function getByUserId(int $userId, ?int $categoryId = null): array
     {
         $sql = <<<SQL
@@ -22,11 +25,17 @@ class ListModel extends BaseModel
         return $this->fetchAll($sql, $params);
     }
 
+    /**
+     * Récupère une liste spécifique par son ID
+     */
     public function getById(int $id): array|false
     {
         return $this->fetch('SELECT * FROM lists WHERE id = :id', [':id' => $id]);
     }
 
+    /**
+     * Sauvegarde ou met à jour une liste (création si $id est null, modification sinon)
+     */
     public function save(string $title, int $userId, int $categoryId, ?int $id = null): int|bool
     {
         $title = trim($title);

@@ -12,6 +12,9 @@ class Database
 
     private function __construct() {}
 
+    /**
+     * Récupère l'instance unique de connexion PDO (pattern Singleton)
+     */
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
@@ -29,10 +32,17 @@ class Database
         return self::$instance;
     }
 
+    /**
+     * Empêche le clonage de l'instance (Singleton)
+     */
     public function __clone()
     {
         throw new Exception('Le clonage de Database n\'est pas autorisé');
     }
+
+    /**
+     * Empêche la désérialisation de l'instance (Singleton)
+     */
     public function __wakeup()
     {
         throw new Exception('La désérialisation de Database n\'est pas autorisée');
