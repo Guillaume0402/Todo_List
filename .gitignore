@@ -132,6 +132,7 @@ public/build/
 # Documentation générée
 docs/generated/
 *.pdf
+DOCUMENTATION.md
 
 
 
