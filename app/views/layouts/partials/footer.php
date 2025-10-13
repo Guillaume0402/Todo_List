@@ -96,6 +96,19 @@
         });
     })();
 </script>
+<script>
+    document.addEventListener('click', e => {
+        const btn = e.target.closest('.toggle-password');
+        if (!btn) return;
+        const input = btn.closest('.input-group').querySelector('input');
+        if (!input) return;
+
+        const isVisible = input.type === 'text';
+        input.type = isVisible ? 'password' : 'text';
+        btn.textContent = isVisible ? '👁' : '🙈';
+    });
+</script>
+
 </body>
 
 </html>

@@ -26,14 +26,20 @@
                 <input type="email" name="email" class="form-control" required value="<?= isset($prefillEmail) ? htmlspecialchars($prefillEmail) : '' ?>" />
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control" required minlength="<?= (int)AppConfig::PASSWORD_MIN_LENGTH ?>" />
+                <div class="input-group">
+                    <input type="password" name="password" class="form-control" required minlength="<?= (int)AppConfig::PASSWORD_MIN_LENGTH ?>" />
+                    <button type="button" class="btn btn-outline-secondary toggle-password" tabindex="-1">👁</button>
+                </div>
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label class="form-label">Confirmation du mot de passe</label>
-                <input type="password" name="password_confirm" class="form-control" required minlength="<?= (int)AppConfig::PASSWORD_MIN_LENGTH ?>" />
+                <div class="input-group">
+                    <input type="password" name="password_confirm" class="form-control" required minlength="<?= (int)AppConfig::PASSWORD_MIN_LENGTH ?>" />
+                    <button type="button" class="btn btn-outline-secondary toggle-password" tabindex="-1">👁</button>
+                </div>
             </div>
 
             <div class="d-flex align-items-center gap-3">

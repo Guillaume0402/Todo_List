@@ -21,9 +21,12 @@
                 <input type="email" name="email" class="form-control" required autofocus value="<?= isset($prefillEmail) ? htmlspecialchars($prefillEmail) : '' ?>" />
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label class="form-label">Mot de passe</label>
-                <input type="password" name="password" class="form-control" required />
+                <div class="input-group">
+                    <input type="password" name="password" class="form-control" required />
+                    <button type="button" class="btn btn-outline-secondary toggle-password" tabindex="-1">👁</button>
+                </div>
             </div>
 
             <button class="btn btn-success">Connexion</button>
