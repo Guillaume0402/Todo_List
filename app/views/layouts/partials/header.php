@@ -56,7 +56,7 @@
                         <i class="bi bi-box-arrow-in-right"></i>
                         Connexion
                     </a>
-                    <a href="#" class="btn btn-primary btn-modern">
+                    <a href="<?= AppConfig::BASE_PATH ?>?r=auth/register" class="btn btn-primary btn-modern">
                         <i class="bi bi-person-plus"></i>
                         S'inscrire
                     </a>
@@ -129,7 +129,7 @@
                                     <i class="bi bi-box-arrow-in-right"></i>
                                     Connexion
                                 </a>
-                                <a href="#" class="btn btn-primary btn-modern">
+                                <a href="<?= AppConfig::BASE_PATH ?>?r=auth/register" class="btn btn-primary btn-modern">
                                     <i class="bi bi-person-plus"></i>
                                     S'inscrire
                                 </a>

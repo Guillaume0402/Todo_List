@@ -24,7 +24,7 @@
         <div id="collapseOne" class="accordion-collapse collapse <?= ($editMode) ? '' : 'show' ?>"
             data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <form action="public/index.php?r=lists/saveList<?= $editMode ? '&id=' . (int)($list['id'] ?? 0) : '' ?>" method="post">
+                <form action="<?= AppConfig::BASE_PATH ?>?r=lists/saveList<?= $editMode ? '&id=' . (int)($list['id'] ?? 0) : '' ?>" method="post">
                     <input type="hidden" name="<?= htmlspecialchars(AppConfig::CSRF_TOKEN_NAME) ?>" value="<?= htmlspecialchars($csrfToken) ?>" />
                     <div class="mb-3">
                         <label for="title" class="form-label">Titre</label>
@@ -53,7 +53,7 @@
             </div>
         <?php } else { ?>
             <h2 class="border-top pt-3">Items</h2>
-            <form method="post" class="d-flex" action="public/index.php?r=lists/saveItem&id=<?= (int)($list['id'] ?? 0) ?>">
+            <form method="post" class="d-flex" action="<?= AppConfig::BASE_PATH ?>?r=lists/saveItem&id=<?= (int)($list['id'] ?? 0) ?>">
                 <input type="hidden" name="<?= htmlspecialchars(AppConfig::CSRF_TOKEN_NAME) ?>" value="<?= htmlspecialchars($csrfToken) ?>" />
                 <input type="checkbox" name="status" id="status" value="1">
                 <input type="text" name="name" id="name" placeholder="Ajouter un item" class="form-control mx-2">
@@ -68,7 +68,7 @@
                                     data-bs-target="#collapse-item-<?= (int)($item['id'] ?? 0) ?>" aria-expanded='false'
                                     aria-controls="collapse-item-<?= (int)($item['id'] ?? 0) ?>">
                                     <a class="me-2"
-                                        href="public/index.php?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= (isset($item['status']) && $item['status']) ? 0 : 1 ?>"><i
+                                        href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= (isset($item['status']) && $item['status']) ? 0 : 1 ?>"><i
                                             class="bi bi-check-circle<?= ((isset($item['status']) && $item['status']) ? '-fill' : '') ?>"></i></a>
                                     <?= htmlspecialchars($item['name'] ?? '') ?>
                                 </button>
@@ -76,7 +76,7 @@
                             <div id="collapse-item-<?= (int)($item['id'] ?? 0) ?>" class="accordion-collapse collapse"
                                 data-bs-parent="#accordion-parent-<?= (int)($item['id'] ?? 0) ?>">
                                 <div class="accordion-body">
-                                    <form action="public/index.php?r=lists/saveItem&id=<?= (int)($list['id'] ?? 0) ?>" method="post">
+                                    <form action="<?= AppConfig::BASE_PATH ?>?r=lists/saveItem&id=<?= (int)($list['id'] ?? 0) ?>" method="post">
                                         <input type="hidden" name="<?= htmlspecialchars(AppConfig::CSRF_TOKEN_NAME) ?>" value="<?= htmlspecialchars($csrfToken) ?>" />
                                         <div class="mb-3 d-flex">
                                             <input type="text" value="<?= htmlspecialchars($item['name'] ?? '') ?>" name="name" class="form-control">
@@ -85,7 +85,7 @@
                                         </div>
                                     </form>
                                     <a class="btn btn-outline-primary"
-                                        href="public/index.php?r=lists/deleteItem&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>"
+                                        href="<?= AppConfig::BASE_PATH ?>?r=lists/deleteItem&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>"
                                         onclick="return confirm('Etes-vous sur de vouloir supprimer cette item')"><i
                                             class="bi bi-trash3-fill"></i> Supprimer</a>
                                 </div>

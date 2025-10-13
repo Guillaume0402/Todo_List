@@ -54,11 +54,12 @@ class UserModel extends BaseModel
     public function save(array $data): bool
     {
         $stmt = $this->execute(
-            'INSERT INTO users (email, password, created_at) 
-             VALUES (:email, :password, NOW())',
+            'INSERT INTO users (email, password, display_name, created_at) 
+             VALUES (:email, :password, :display_name, NOW())',
             [
                 ':email' => $data['email'],
-                ':password' => $data['password']
+                ':password' => $data['password'],
+                ':display_name' => $data['display_name'] ?? null,
             ]
         );
         return $stmt !== false;

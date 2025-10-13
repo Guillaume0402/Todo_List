@@ -5,9 +5,9 @@
     <div class="d-flex justify-content-between align-items-center">
         <h1>Mes listes</h1>
         <?php if ($isLoggedIn) { ?>
-            <a href="public/index.php?r=lists/form" class="btn btn-primary">Ajouter une liste</a>
+            <a href="<?= AppConfig::BASE_PATH ?>?r=lists/form" class="btn btn-primary">Ajouter une liste</a>
         <?php } ?>
-        <form method="get" action="public/index.php">
+        <form method="get" action="<?= AppConfig::BASE_PATH ?>">
             <input type="hidden" name="r" value="lists/index" />
             <label for="category" class="form-label">Catégorie</label>
             <select name="category" id="category" onchange="this.form.submit()">
@@ -42,7 +42,7 @@
                                             <?php $status = isset($item['status']) ? (int)$item['status'] : (int)($item['is_done'] ?? 0); ?>
                                             <li class="list-group-item d-flex align-items-center">
                                                 <a class="me-2"
-                                                    href="public/index.php?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= $status ? 0 : 1 ?>&redirect=list">
+                                                    href="<?= AppConfig::BASE_PATH ?>?r=lists/updateItemStatus&id=<?= (int)($list['id'] ?? 0) ?>&item_id=<?= (int)($item['id'] ?? 0) ?>&status=<?= $status ? 0 : 1 ?>&redirect=list">
                                                     <i class="bi bi-check-circle<?= $status ? '-fill' : '' ?>"></i>
                                                 </a>
                                                 <?= htmlspecialchars($item['name'] ?? '') ?>
@@ -54,7 +54,7 @@
                                 <?php endif; ?>
 
                                 <div class="d-flex justify-content-between align-items-end mt-2">
-                                    <a href="public/index.php?r=lists/form&id=<?= (int)($list['id'] ?? 0) ?>" class="btn btn-primary">Voir la liste</a>
+                                    <a href="<?= AppConfig::BASE_PATH ?>?r=lists/form&id=<?= (int)($list['id'] ?? 0) ?>" class="btn btn-primary">Voir la liste</a>
                                     <span class="badge rounded-pill text-bg-primary">
                                         <i class="bi <?= htmlspecialchars($list['category_icon'] ?? 'bi-card-checklist') ?>"></i>
                                         <?= htmlspecialchars($list['category_name'] ?? 'Sans catégorie') ?>

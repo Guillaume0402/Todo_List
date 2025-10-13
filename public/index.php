@@ -20,6 +20,8 @@ try {
         case 'auth':
             $ctrl = new AuthController();
             if ($action === 'login' && $_SERVER['REQUEST_METHOD'] === 'POST') $ctrl->login();
+            elseif ($action === 'register' && $_SERVER['REQUEST_METHOD'] === 'POST') $ctrl->register();
+            elseif ($action === 'register') $ctrl->showRegister();
             elseif ($action === 'logout') $ctrl->logout();
             else $ctrl->showLogin();
             break;

@@ -97,9 +97,9 @@ class ListController extends BaseController
             if ($result) {
                 if ($listId) {
                     $this->addFlashMessage('success', 'La liste a bien été mise à jour');
-                    $this->redirect("/public/index.php?r=lists/form&id={$listId}");
+                    $this->redirect(\AppConfig::BASE_PATH . '?r=lists/form&id=' . $listId);
                 } else {
-                    $this->redirect("/public/index.php?r=lists/form&id={$result}");
+                    $this->redirect(\AppConfig::BASE_PATH . '?r=lists/form&id=' . $result);
                 }
             } else {
                 $this->addFlashMessage('error', 'La liste n\'a pas été enregistrée');
@@ -130,7 +130,7 @@ class ListController extends BaseController
 
             $this->itemModel->save($data['name'], $listId, false, $itemId);
 
-            $this->redirect("/public/index.php?r=lists/form&id={$listId}");
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/form&id=' . $listId);
         } catch (Exception $e) {
             $this->addFlashMessage('error', $e->getMessage());
             $this->redirect($_SERVER['REQUEST_URI']);
@@ -146,14 +146,14 @@ class ListController extends BaseController
 
         if (!isset($_GET['item_id']) || !isset($_GET['id'])) {
             $this->addFlashMessage('error', 'Paramètres manquants');
-            $this->redirect('/public/index.php?r=lists/index');
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');
         }
 
         $itemId = (int)$_GET['item_id'];
         $listId = (int)$_GET['id'];
 
         $this->itemModel->deleteById($itemId);
-        $this->redirect("/public/index.php?r=lists/form&id={$listId}");
+        $this->redirect(\AppConfig::BASE_PATH . '?r=lists/form&id=' . $listId);
     }
 
     /**
@@ -165,7 +165,7 @@ class ListController extends BaseController
 
         if (!isset($_GET['item_id']) || !isset($_GET['status']) || !isset($_GET['id'])) {
             $this->addFlashMessage('error', 'Paramètres manquants');
-            $this->redirect('/public/index.php?r=lists/index');
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');
         }
 
         $itemId = (int)$_GET['item_id'];
@@ -175,9 +175,9 @@ class ListController extends BaseController
         $this->itemModel->updateStatus($itemId, $status);
 
         if (isset($_GET['redirect']) && $_GET['redirect'] === 'list') {
-            $this->redirect('/public/index.php?r=lists/index');
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/index');
         } else {
-            $this->redirect("/public/index.php?r=lists/form&id={$listId}");
+            $this->redirect(\AppConfig::BASE_PATH . '?r=lists/form&id=' . $listId);
         }
     }
 }
