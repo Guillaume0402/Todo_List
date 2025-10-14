@@ -17,7 +17,7 @@ class ListModel extends BaseModel
         SQL;
         $params = [':user_id' => $userId];
 
-        if ($categoryId !== null) {
+        if (!empty($categoryId)) {
             $sql .= ' AND l.category_id = :category_id';
             $params[':category_id'] = $categoryId;
         }

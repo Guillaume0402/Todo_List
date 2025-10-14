@@ -1,16 +1,5 @@
-<?php
-// Vue: formulaire d'ajout/modification de liste
-?>
 <div class="container col-xxl-8 ">
     <h1>Liste</h1>
-
-    <?php if (!empty($flashMessages)) {
-        foreach ($flashMessages as $fm) { ?>
-            <div class="alert alert-<?= htmlspecialchars($fm['type']) ?>">
-                <?= htmlspecialchars($fm['message']) ?>
-            </div>
-    <?php }
-    } ?>
 </div>
 
 <div class="accordion container" id="accordionExample">

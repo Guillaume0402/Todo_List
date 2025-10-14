@@ -1,18 +1,6 @@
-<?php
-// Vue: authentification - connexion
-?>
 <section class="container my-5">
     <div class="card bg-dark text-light p-3 m-5">
         <h2 class="mb-3 text-success">Se connecter</h2>
-
-        <?php if (!empty($flashMessages)) : ?>
-            <?php foreach ($flashMessages as $fm) : ?>
-                <div class="alert alert-<?= htmlspecialchars($fm['type']) ?>">
-                    <?= htmlspecialchars($fm['message']) ?>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-
         <form method="post" action="<?= AppConfig::BASE_PATH ?>?r=auth/login" autocomplete="off">
             <input type="hidden" name="<?= htmlspecialchars(AppConfig::CSRF_TOKEN_NAME) ?>" value="<?= htmlspecialchars($csrfToken) ?>" />
 

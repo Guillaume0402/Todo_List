@@ -214,6 +214,55 @@
     border-radius: var(--radius-md);
 }
 
+/* === TOASTS === */
+
+
+#toast-region{
+  position: fixed !important;
+  z-index: 3000;
+  width: clamp(260px, 30vw, 420px);
+  pointer-events: none; /* laisse passer les clics, sauf sur les toasts */
+}
+
+/* Positions possibles */
+#toast-region[data-position="top-right"]    { top: 16px;  right: 16px; }
+#toast-region[data-position="top-center"]   { top: 100px;  left: 50%; transform: translateX(-50%); }
+#toast-region[data-position="top-left"]     { top: 16px;  left: 16px; }
+#toast-region[data-position="bottom-right"] { bottom: 16px; right: 16px; }
+#toast-region[data-position="bottom-center"]{ bottom: 16px; left: 50%; transform: translateX(-50%); }
+#toast-region[data-position="bottom-left"]  { bottom: 16px; left: 16px; }
+
+/* Carte de toast */
+#toast-region .alert{
+  pointer-events: auto;
+  margin: 0 0 10px 0;
+  backdrop-filter: blur(6px); /* optionnel */
+}
+
+/* Thème sombre TyckyList pour les toasts uniquement */
+#toast-region .alert.alert-success{
+  background: rgba(76, 175, 80, 0.15);
+  border-color: var(--primary);
+  color: var(--primary-light);
+  box-shadow: 0 8px 24px rgba(76,175,80,.25);
+}
+#toast-region .alert.alert-danger{
+  background: rgba(244, 67, 54, 0.15);
+  border-color: var(--danger);
+  color: #ff5252;
+  box-shadow: 0 8px 24px rgba(244,67,54,.25);
+}
+#toast-region .alert.alert-info{
+  background: rgba(33, 150, 243, 0.15);
+  border-color: var(--info);
+  color: #42a5f5;
+  box-shadow: 0 8px 24px rgba(33,150,243,.25);
+}
+#toast-region .btn-close{
+  filter: invert(1) opacity(.8);
+}
+
+
 /* === BADGES === */
 
 .badge {

@@ -1,6 +1,3 @@
-<?php
-// Vue d'accueil (contenu déplacé depuis index.php)
-?>
 <main>
     <!-- Section Hero -->
     <section class="hero-section mt-5">

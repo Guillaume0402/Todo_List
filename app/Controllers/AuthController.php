@@ -36,7 +36,7 @@ class AuthController extends BaseController
         // Pré-remplir l'email si présent en flash (après échec)
         $prefillEmail = $_SESSION['last_login_email'] ?? '';
         unset($_SESSION['last_login_email']);
-        $this->render('auth/login', ['prefillEmail' => $prefillEmail]);
+        $this->render('auth/login', ['prefillEmail' => $prefillEmail, 'flashMessages' => $this->getFlashMessages()]);
     }
 
     /**
@@ -53,6 +53,7 @@ class AuthController extends BaseController
         $this->render('auth/register', [
             'prefillEmail' => $prefillEmail,
             'prefillName' => $prefillName,
+            'flashMessages' => $this->getFlashMessages()
         ]);
     }
 

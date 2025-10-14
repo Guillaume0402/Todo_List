@@ -1,7 +1,3 @@
-<?php
-// Partiel header
-// Note: la session est initialisée par BaseController via Auth, pas besoin d'inclure lib/session.php
-?>
 <!DOCTYPE html>
 <html lang="fr">
 

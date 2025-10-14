@@ -1,9 +1,10 @@
 <?php if (!empty($flashMessages)) : ?>
-    <div class="container mt-3">
-        <?php foreach ($flashMessages as $fm): ?>
-            <div class="alert alert-<?= htmlspecialchars($fm['type'] ?? 'info') ?>">
-                <?= htmlspecialchars($fm['message'] ?? '') ?>
-            </div>
-        <?php endforeach; ?>
-    </div>
+<script>
+window.addEventListener('load', function () {
+  <?php foreach ($flashMessages as $fm):
+    $type = ($fm['type'] ?? 'info') === 'error' ? 'danger' : ($fm['type'] ?? 'info'); ?>
+    showToast(<?= json_encode($fm['message']) ?>, <?= json_encode($type) ?>);
+  <?php endforeach; ?>
+});
+</script>
 <?php endif; ?>

@@ -1,6 +1,3 @@
-<?php
-// Vue: listes index
-?>
 <div class='container'>
     <div class="d-flex justify-content-between align-items-center">
         <h1>Mes listes</h1>
@@ -20,6 +17,10 @@
                 <?php } ?>
             </select>
         </form>
+    </div>
+    <div class="mb-3">
+        <label for="search" class="form-label">Rechercher une liste :</label>
+        <input type="text" id="search" class="form-control" placeholder="Tape le nom d’une liste...">
     </div>
     <div class="row">
         <?php if ($isLoggedIn) {
