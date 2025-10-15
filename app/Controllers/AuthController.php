@@ -78,6 +78,7 @@ class AuthController extends BaseController
                 session_regenerate_id(true);
 
                 Auth::login($user);
+                $this->log('auth.login_success');
                 $this->addFlashMessage('success', 'Connexion réussie');
                 $this->redirect(\AppConfig::BASE_PATH . '?r=home/index');
             } else {
@@ -87,6 +88,7 @@ class AuthController extends BaseController
 
                 $this->addFlashMessage('error', 'Identifiants invalides.');
                 $_SESSION['last_login_email'] = $email; // email normalisé
+                $this->log('auth.login_failed', ['status' => 'error', 'message' => 'Identifiants invalides']);
                 $this->redirect(\AppConfig::BASE_PATH . '?r=auth/login');
             }
         } catch (Exception $e) {
@@ -97,6 +99,7 @@ class AuthController extends BaseController
             }
 
             $this->addFlashMessage('error', $e->getMessage());
+            $this->log('auth.login_failed', ['status' => 'error', 'message' => $e->getMessage()]);
             $this->redirect(\AppConfig::BASE_PATH . '?r=auth/login');
         }
     }
@@ -180,10 +183,21 @@ class AuthController extends BaseController
             session_regenerate_id(true);
 
             Auth::login($user);
+            $this->log('auth.register_success', [
+                'entity'    => 'user',
+                'entity_id' => isset($user['id']) ? (int)$user['id'] : null,
+                'status'    => 'ok'
+            ]);
             $this->addFlashMessage('success', 'Inscription réussie, bienvenue !');
             $this->redirect(\AppConfig::BASE_PATH . '?r=home/index');
         } catch (Exception $e) {
             $this->addFlashMessage('error', $e->getMessage());
+            $this->log('auth.register_failed', [
+                'status'  => 'error',
+                'message' => $e->getMessage(),
+                'entity'  => 'user',
+                'details' => ['email' => $_POST['email'] ?? null]
+            ]);
             if (isset($_POST['email'])) {
                 $_SESSION['last_register_email'] = $_POST['email'];
             }

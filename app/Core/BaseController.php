@@ -6,6 +6,8 @@ use PDO;
 use Exception;
 use App\Core\Database;
 use App\Core\Auth;
+use App\Services\ActivityLogger;
+
 
 /**
  * Contrôleur de base
@@ -14,6 +16,8 @@ use App\Core\Auth;
 abstract class BaseController
 {
     protected PDO $db;
+    protected ActivityLogger $activity;
+
 
     /**
      * Initialise la connexion base de données et la session
@@ -21,7 +25,17 @@ abstract class BaseController
     public function __construct()
     {
         $this->db = Database::getInstance();
+        $this->activity = new ActivityLogger();
         Auth::initSession();
+    }
+
+
+    /**
+     * Enregistre une action utilisateur
+     */
+    protected function log(string $action, array $extra = []): void
+    {
+        $this->activity->log($action, $extra);
     }
 
     /**
