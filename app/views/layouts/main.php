@@ -6,4 +6,5 @@ if (file_exists($flashPartial)) {
     require $flashPartial;
 }
 echo $content ?? '';
+
 require_once __DIR__ . '/partials/footer.php';

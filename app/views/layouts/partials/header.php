@@ -27,14 +27,13 @@
                     <i class="bi bi-list-check"></i>
                     <span>Mes listes</span>
                 </a>
-                <a href="#" class="mobile-nav-link">
-                    <i class="bi bi-tags"></i>
-                    <span>Pricing</span>
-                </a>
-                <a href="#" class="mobile-nav-link">
-                    <i class="bi bi-question-circle"></i>
-                    <span>FAQs</span>
-                </a>
+                <?php if (\App\Core\Auth::isAdmin()) : ?>
+                    <a href="<?= AppConfig::BASE_PATH ?>?r=admin/dashboard" class="nav-link">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                <?php endif; ?>
+
                 <a href="<?= AppConfig::BASE_PATH ?>?r=home/about" class="mobile-nav-link">
                     <i class="bi bi-info-circle"></i>
                     <span>À propos</span>
@@ -95,14 +94,13 @@
                                 <i class="bi bi-list-check"></i>
                                 <span>Mes listes</span>
                             </a>
-                            <a href="#" class="nav-link">
-                                <i class="bi bi-tags"></i>
-                                <span>Pricing</span>
-                            </a>
-                            <a href="#" class="nav-link">
-                                <i class="bi bi-question-circle"></i>
-                                <span>FAQs</span>
-                            </a>
+                            <?php if (\App\Core\Auth::isAdmin()) : ?>
+                                <a href="<?= AppConfig::BASE_PATH ?>?r=admin/dashboard" class="nav-link">
+                                    <i class="bi bi-speedometer2"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            <?php endif; ?>
+
                             <a href="<?= AppConfig::BASE_PATH ?>?r=home/about" class="nav-link">
                                 <i class="bi bi-info-circle"></i>
                                 <span>À propos</span>

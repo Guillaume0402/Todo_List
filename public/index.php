@@ -21,12 +21,12 @@ ini_set('session.gc_maxlifetime', (string)\AppConfig::SESSION_LIFETIME);
 // Démarre la session avec des options sécurisées
 $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
 session_start([
-  'cookie_lifetime' => \AppConfig::SESSION_LIFETIME,
-  'cookie_httponly' => true,
-  'cookie_samesite' => 'Lax',
-  'cookie_domain'   => \AppConfig::SESSION_DOMAIN,
-  'use_strict_mode' => true,
-  'cookie_secure'   => $secure, // 👈 ajouté
+    'cookie_lifetime' => \AppConfig::SESSION_LIFETIME,
+    'cookie_httponly' => true,
+    'cookie_samesite' => 'Lax',
+    'cookie_domain'   => \AppConfig::SESSION_DOMAIN,
+    'use_strict_mode' => true,
+    'cookie_secure'   => $secure, // 👈 ajouté
 ]);
 
 
@@ -61,8 +61,17 @@ try {
             elseif ($action === 'saveItem') $ctrl->saveItem();
             elseif ($action === 'deleteItem') $ctrl->deleteItem();
             elseif ($action === 'updateItemStatus') $ctrl->updateItemStatus();
-            else Http::abort(404);                 // ✅ 404 propre
+            else Http::abort(404);                 
             break;
+        case 'admin':
+            $ctrl = new \App\Controllers\AdminDashboardController();
+            if ($action === 'dashboard') {
+                $ctrl->index();
+            } else {
+                Http::abort(404);
+            }
+            break;
+
 
         default:
             Http::abort(404);
@@ -102,4 +111,3 @@ Ne pas oublier de consulter la documentation officielle et les ressources en lig
 Ne pas oublier de demander de l'aide ou des conseils à la communauté ou à des experts si nécessaire.
 Ne pas oublier de prendre du recul et de réfléchir à l'architecture globale et aux choix technologiques pour garantir la pérennité et la scalabilité de l'application. 
 */
-

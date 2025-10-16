@@ -4,6 +4,7 @@ namespace App\Core;
 
 use function hash_equals;
 
+
 /**
  * Gestionnaire de session et d'authentification
  */
@@ -52,6 +53,7 @@ class Auth
             'id' => (int)$user['id'],
             'email' => $user['email'],
             'name' => $user['display_name'] ?? null,
+            'is_admin' => (bool)$user['is_admin'],
         ];
     }
 
@@ -135,4 +137,14 @@ class Auth
         }
         return false;
     }
+
+    /**
+     * Vérifie si l'utilisateur connecté est un administrateur
+     * (à adapter selon votre logique métier)
+     */
+    public static function isAdmin(): bool
+{
+    return isset($_SESSION['user']['is_admin']) && $_SESSION['user']['is_admin'] == 1;
+}
+
 }
