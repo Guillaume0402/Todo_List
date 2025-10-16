@@ -34,6 +34,6 @@ class AppConfig
     public const LOG_ERRORS = true;
 
     // MongoDB
-    public const MONGO_DSN = 'mongodb://127.0.0.1:27017'; // adapte si besoin
+    public const MONGO_DSN = 'mongodb://mongo:27017'; // adapte si besoin
     public const MONGO_DB  = 'tyckylist';
 }
