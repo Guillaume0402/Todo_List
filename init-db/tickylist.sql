@@ -116,18 +116,21 @@ CREATE TABLE `users` (
   `email` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `display_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=user,1=admin',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `chk_users_is_admin_bool` CHECK (`is_admin` IN (0,1))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `created_at`) VALUES
-(1, 'test@example.com', '$2y$10$Do/SIenKrsFBNKQAJB6FIuO1TEYrWJybP3rLBSxyP3xJH1RQYCRvq', 'Demo User', '2025-10-11 07:21:46'),
-(3, 'g.maignaut@gmail.com', '$2y$10$AnYMoNoqIykc1rkLNNoZjugklZD9eO.LbXkWqfIiJCdoVDsUfW/8G', 'Yom', '2025-10-13 06:56:15'),
-(4, 'yanismaignaut@gmail.com', '$2y$10$8lyIGidWuDGgWqiAp8K.HucGLZfkpK7Vv9xKh1oq/pmG6QBVUfY8.', 'yanis', '2025-10-13 08:16:49'),
-(5, 'g.maignautt@gmail.com', '$2y$10$E67U5BHU4K2qv4/dW5tnDepwIkLVMIS4zTNSIikqJEK7OWsmmO9sO', 'Maignaut', '2025-10-15 07:21:59');
+INSERT INTO `users` (`id`, `email`, `password`, `display_name`, `is_admin`, `created_at`) VALUES
+(1, 'test@example.com', '$2y$10$Do/SIenKrsFBNKQAJB6FIuO1TEYrWJybP3rLBSxyP3xJH1RQYCRvq', 'Demo User', 0, '2025-10-11 07:21:46'),
+(3, 'g.maignaut@gmail.com', '$2y$10$AnYMoNoqIykc1rkLNNoZjugklZD9eO.LbXkWqfIiJCdoVDsUfW/8G', 'Yom', 1, '2025-10-13 06:56:15'),
+(4, 'yanismaignaut@gmail.com', '$2y$10$8lyIGidWuDGgWqiAp8K.HucGLZfkpK7Vv9xKh1oq/pmG6QBVUfY8.', 'yanis', 0, '2025-10-13 08:16:49'),
+(5, 'g.maignautt@gmail.com', '$2y$10$E67U5BHU4K2qv4/dW5tnDepwIkLVMIS4zTNSIikqJEK7OWsmmO9sO', 'Maignaut', 0, '2025-10-15 07:21:59');
+
 
 --
 -- Index pour les tables déchargées
